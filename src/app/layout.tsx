@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Footer from "./components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +34,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} flex flex-col min-h-screen bg-[#E6F0FB]`}
+        className={`${roboto.className} flex flex-col min-h-screen bg-white`}
       >
-        <Header />
+        <div className="bg-[#E6F0FB] rounded-[40px] overflow-hidden min-h-screen">
+          <Header />
+          <Hero />
+          <Footer />
+        </div>
+
         <main className="flex-grow">{children}</main>
       </body>
     </html>

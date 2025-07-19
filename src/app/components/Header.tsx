@@ -4,8 +4,8 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className="bg-[#E6F0FB] shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <header className="bg-[#E6F0FB] border-b border-gray-300">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 lg:px-12 py-6">
         {/* Logo */}
         <div className="flex items-center">
           <Image
@@ -31,10 +31,10 @@ const Header = () => {
           <Link href="/" className="hover:text-blue-700 transition-colors">
             Home
           </Link>
-          <Link href="/" className="hover:text-blue-700 transition-color#">
+          <Link href="/" className="hover:text-blue-700 transition-colors">
             About
           </Link>
-          <Link href="/" className="hover:text-blue-700 transition-color#">
+          <Link href="/" className="hover:text-blue-700 transition-colors">
             Contact
           </Link>
           <Link
