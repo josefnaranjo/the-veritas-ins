@@ -5,7 +5,7 @@ import { FaInstagram, FaLinkedin } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer
-      id="contact" // 👈 this is important for react-scroll
+      id="contact"
       className="bg-[#E6F0FB] border-t border-gray-300 mt-16"
     >
       <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 lg:px-12 py-6">
