@@ -1,10 +1,14 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link as ScrollLink } from "react-scroll";
+import { IoMdMenu, IoMdClose } from "react-icons/io";
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <header className="bg-[#E6F0FB] border-b border-gray-300">
+    <header className="fixed top-0 left-0 w-full bg-[#E6F0FB] border-b border-gray-300 shadow-md z-50">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 lg:px-12 py-6">
         {/* Logo */}
         <div className="flex items-center">
@@ -26,25 +30,87 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex items-center space-x-6 text-gray-800 font-semibold">
-          <Link href="/" className="hover:text-blue-700 transition-colors">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center space-x-6 text-gray-800 font-semibold">
+          <ScrollLink
+            to="home"
+            smooth={true}
+            offset={-80}
+            duration={500}
+            className="cursor-pointer hover:text-blue-700 transition-colors"
+          >
             Home
-          </Link>
-          <Link href="/" className="hover:text-blue-700 transition-colors">
+          </ScrollLink>
+          <ScrollLink
+            to="about"
+            smooth={true}
+            offset={-80}
+            duration={500}
+            className="cursor-pointer hover:text-blue-700 transition-colors"
+          >
             About
-          </Link>
-          <Link href="/" className="hover:text-blue-700 transition-colors">
+          </ScrollLink>
+          <ScrollLink
+            to="contact"
+            smooth={true}
+            offset={-80}
+            duration={500}
+            className="cursor-pointer hover:text-blue-700 transition-colors"
+          >
             Contact
-          </Link>
-          <Link
+          </ScrollLink>
+          <a
             href="#"
             className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors"
           >
             Get Started
-          </Link>
+          </a>
         </nav>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden text-gray-800"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <IoMdClose size={28} /> : <IoMdMenu size={28} />}
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-[#E6F0FB] px-6 pb-4 space-y-4 text-gray-800 font-semibold">
+          <ScrollLink
+            to="home"
+            smooth={true}
+            offset={-80}
+            duration={500}
+            onClick={() => setMenuOpen(false)}
+            className="block cursor-pointer hover:text-blue-700 transition-colors"
+          >
+            Home
+          </ScrollLink>
+          <ScrollLink
+            to="about"
+            smooth={true}
+            offset={-80}
+            duration={500}
+            onClick={() => setMenuOpen(false)}
+            className="block cursor-pointer hover:text-blue-700 transition-colors"
+          >
+            About
+          </ScrollLink>
+          <ScrollLink
+            to="contact"
+            smooth={true}
+            offset={-80}
+            duration={500}
+            onClick={() => setMenuOpen(false)}
+            className="block cursor-pointer hover:text-blue-700 transition-colors"
+          >
+            Contact
+          </ScrollLink>
+        </div>
+      )}
     </header>
   );
 };
