@@ -43,9 +43,9 @@ const Hero = () => {
         <div className="max-w-screen-md mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold text-blue-900 mb-4">Our Mission</h2>
           <p className="text-lg text-gray-700">
-            At Veritas Institute, our mission is to empower educators and
+            At THE VERITAS INSTITUTE, our mission is to empower educators and
             institutions with responsible AI tools and insights, fostering
-            innovation while maintaining ethical standards in education.
+            innovation while upholding ethical standards in education.
           </p>
         </div>
       </div>
