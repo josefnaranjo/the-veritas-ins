@@ -110,7 +110,33 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Contact/Footer links will be at the bottom */}
+      {/* Newsletter Signup Section */}
+      <div className="bg-white py-16">
+        <div className="max-w-screen-md mx-auto px-6 text-center">
+          <h2 className="text-2xl font-bold text-blue-900 mb-4">
+            Stay in the Loop
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Join our newsletter to get the latest courses, insights, and
+            updates—straight to your inbox.
+          </p>
+          <form className="flex flex-col text-gray-500 sm:flex-row justify-center gap-4">
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="px-4 py-3 rounded-md border border-gray-300 w-full sm:w-auto flex-grow"
+            />
+            <button
+              type="submit"
+              className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-800 transition-colors"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Contact/Footer links will be at the bottom (Footer) */}
     </section>
   );
 };

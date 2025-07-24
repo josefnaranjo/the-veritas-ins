@@ -19,18 +19,21 @@ const Header = () => {
             height={75}
             className="mr-2"
           />
-          <div className="flex flex-col leading-tight text-blue-900 uppercase ml-2">
-            <span className="text-lg tracking-wider font-semibold">THE</span>
-            <span className="text-lg tracking-wider font-semibold leading-none ml-2 mt-1">
+
+          <div className="flex flex-col space-y-1.5 leading-tight text-blue-900 uppercase">
+            <span className="text-lg tracking-wider font-semibold ml-0">
+              THE
+            </span>
+            <span className="text-lg tracking-wider font-semibold ml-2">
               VERITAS
             </span>
-            <span className="text-lg tracking-wider font-semibold leading-none ml-4 mt-1">
+            <span className="text-lg tracking-wider font-semibold ml-4">
               INSTITUTE
             </span>
           </div>
         </div>
 
-        {/* Desktop Nav */}
+        {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-6 text-gray-800 font-semibold">
           <ScrollLink
             to="home"
