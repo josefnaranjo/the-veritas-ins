@@ -2,8 +2,50 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Slider from "react-slick";
 
 const Hero = () => {
+  {/* Carousel settings */} 
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false,
+    centerMode: true, 
+    centerPadding: "0px",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: { slidesToShow: 3, centerMode: true, centerPadding: "0px" },
+      },
+      {
+        breakpoint: 768,
+        settings: { slidesToShow: 2, centerMode: true, centerPadding: "0px" },
+      },
+      {
+        breakpoint: 480,
+        settings: { slidesToShow: 1, centerMode: true, centerPadding: "0px" },
+      },
+    ],
+  };
+
+  const partners = [
+    "/ASU.png",
+    "/Caltech.png",
+    "/Carnegie Mellon.png",
+    "/Christian Medical College Vellore.png",
+    "/Stanford.png",
+    "/UC Berkeley.png",
+    "/UC Davis.png",
+    "/UC Irvine.png",
+    "/UC San Diego.png",
+    "/UC Santa Cruz.png",
+  ];
+
   return (
     <section id="home" className="bg-[#E6F0FB]">
       {/* Main Hero Section */}
@@ -50,43 +92,32 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Trusted Partners */}
+      {/* Trusted Partners (with Carousel) */}
       <div className="bg-white py-10">
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-12 text-center">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-xl font-semibold text-gray-800 mb-6">
             Trusted by leading institutions
           </h2>
-          <div className="flex flex-wrap justify-center items-center gap-8">
-            {[
-              "/ASU.png",
-              "/Caltech.png",
-              "/Carnegie Mellon.png",
-              "/Christian Medical College Vellore.png",
-              "/Stanford.png",
-              "/UC Berkeley.png",
-              "/UC Davis.png",
-              "/UC Irvine.png",
-              "/UC San Diego.png",
-              "/UC Santa Cruz.png",
-            ].map((src, index) => (
-              <div
-                key={index}
-                className="transition-transform transform hover:scale-110 hover:shadow-xl p-2 rounded-lg bg-white"
-              >
-                <Image
-                  src={src}
-                  alt={`Partner ${index}`}
-                  width={120}
-                  height={40}
-                />
-              </div>
-            ))}
+          <div className="mx-auto">
+            <Slider {...settings}>
+              {partners.map((src, index) => (
+                <div key={index} className="px-4 flex justify-center">
+                  <Image
+                    src={src}
+                    alt={`Partner ${index}`}
+                    width={120}
+                    height={40}
+                    className="transition-transform transform hover:scale-110 hover:shadow-xl bg-white rounded-lg mx-auto"
+                  />
+                </div>
+              ))}
+            </Slider>
           </div>
         </div>
       </div>
 
       {/* Quick Links */}
-      <div className="bg-[#F9FAFB] py-10">
+      <div className="bg-white py-10">
         <div className="max-w-screen-xl mx-auto px-6 lg:px-12 text-center">
           <h2 className="text-lg font-semibold text-gray-800 mb-6">
             What brings you here today?
@@ -135,8 +166,6 @@ const Hero = () => {
           </form>
         </div>
       </div>
-
-      {/* Contact/Footer links will be at the bottom (Footer) */}
     </section>
   );
 };
