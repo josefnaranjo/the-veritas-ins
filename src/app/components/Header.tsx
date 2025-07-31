@@ -3,9 +3,16 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Link as ScrollLink } from "react-scroll";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
+import { usePathname } from "next/navigation";
 
-const Header = () => {
+const Header: React.FC = () => {
+  const pathname = usePathname() || "";
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // don’t render the header on /stories
+  if (pathname.startsWith("/stories")) {
+    return null;
+  }
 
   return (
     <header className="fixed top-0 left-0 w-full bg-[#E6F0FB] border-b border-gray-300 shadow-md z-50">
@@ -19,7 +26,6 @@ const Header = () => {
             height={55}
             className="mr-2"
           />
-
           <div className="flex flex-col space-y-0.5 leading-tight text-blue-900 uppercase">
             <span className="text-sm md:text-base tracking-wider font-semibold">
               THE
@@ -33,11 +39,11 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Navigation */}
+        {/* Desktop nav */}
         <nav className="hidden md:flex items-center space-x-4 md:space-x-6 text-gray-800 font-medium text-sm md:text-base">
           <ScrollLink
             to="home"
-            smooth={true}
+            smooth
             offset={-80}
             duration={500}
             className="cursor-pointer hover:text-blue-700 transition-colors"
@@ -46,7 +52,7 @@ const Header = () => {
           </ScrollLink>
           <ScrollLink
             to="about"
-            smooth={true}
+            smooth
             offset={-80}
             duration={500}
             className="cursor-pointer hover:text-blue-700 transition-colors"
@@ -55,7 +61,7 @@ const Header = () => {
           </ScrollLink>
           <ScrollLink
             to="contact"
-            smooth={true}
+            smooth
             offset={-80}
             duration={500}
             className="cursor-pointer hover:text-blue-700 transition-colors"
@@ -70,7 +76,7 @@ const Header = () => {
           </a>
         </nav>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile menu button */}
         <button
           className="md:hidden text-gray-800"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -79,12 +85,12 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu links */}
       {menuOpen && (
         <div className="md:hidden bg-[#E6F0FB] px-4 pb-4 space-y-3 text-gray-800 font-medium">
           <ScrollLink
             to="home"
-            smooth={true}
+            smooth
             offset={-80}
             duration={500}
             onClick={() => setMenuOpen(false)}
@@ -94,7 +100,7 @@ const Header = () => {
           </ScrollLink>
           <ScrollLink
             to="about"
-            smooth={true}
+            smooth
             offset={-80}
             duration={500}
             onClick={() => setMenuOpen(false)}
@@ -104,7 +110,7 @@ const Header = () => {
           </ScrollLink>
           <ScrollLink
             to="contact"
-            smooth={true}
+            smooth
             offset={-80}
             duration={500}
             onClick={() => setMenuOpen(false)}

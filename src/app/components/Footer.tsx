@@ -25,7 +25,7 @@ const Footer = () => {
             <FaInstagram />
           </Link>
           <Link
-            href="https://www.linkedin.com/"
+            href="https://www.linkedin.com/company/the-veritas-institute/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-700 transition-colors"

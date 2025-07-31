@@ -1,57 +1,25 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Slider from "react-slick";
+import StoryCarousel from "./StoryCarousel";
+import StoryFormModal from "./StoryFormModal";
+import { useStories } from "../providers/StoriesProvider";
 
-const Hero = () => {
-  {/* Carousel settings */} 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    arrows: false,
-    centerMode: true, 
-    centerPadding: "0px",
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 3, centerMode: true, centerPadding: "0px" },
-      },
-      {
-        breakpoint: 768,
-        settings: { slidesToShow: 2, centerMode: true, centerPadding: "0px" },
-      },
-      {
-        breakpoint: 480,
-        settings: { slidesToShow: 1, centerMode: true, centerPadding: "0px" },
-      },
-    ],
+const Hero: React.FC = () => {
+  const [showForm, setShowForm] = useState(false);
+  const { addStory } = useStories();
+
+  const handleStorySubmit = (fullText: string) => {
+    addStory(fullText);
+    setShowForm(false);
   };
-
-  const partners = [
-    "/ASU.png",
-    "/Caltech.png",
-    "/Carnegie Mellon.png",
-    "/Christian Medical College Vellore.png",
-    "/Stanford.png",
-    "/UC Berkeley.png",
-    "/UC Davis.png",
-    "/UC Irvine.png",
-    "/UC San Diego.png",
-    "/UC Santa Cruz.png",
-  ];
 
   return (
     <section id="home" className="bg-[#E6F0FB]">
-      {/* Main Hero Section */}
-      <div className="flex flex-col text-center items-center justify-center my-10 pt-28 pb-16 md:flex-row md:space-x-12 md:text-left md:py-24 sm:py-20 max-w-screen-xl mx-auto px-6 lg:px-12">
-        {/* Left: Hero Image */}
-        <div className="md:w-1/2 md:mt-4 flex justify-center md:justify-start">
+      {/* ─── Main Hero ─────────────────────────────────────────────────────── */}
+      <div className="flex flex-col text-center items-center justify-center my-10 pt-28 pb-16 md:flex-row md:space-x-12 md:text-left max-w-screen-xl mx-auto px-6 lg:px-12">
+        <div className="md:w-1/2 flex justify-center md:justify-start">
           <Image
             src="/Students.jpg"
             alt="College students learning"
@@ -60,15 +28,13 @@ const Hero = () => {
             className="rounded-2xl shadow-md object-cover"
           />
         </div>
-
-        {/* Right: Hero Text */}
-        <div className="md:w-1/2 md:mt-2 flex flex-col justify-center items-center md:items-start">
-          <h1 className="font-extrabold text-4xl mt-6 md:text-5xl md:mt-0 text-blue-900 drop-shadow-md leading-tight">
+        <div className="md:w-1/2 flex flex-col justify-center items-center md:items-start">
+          <h1 className="font-extrabold text-4xl md:text-5xl text-blue-900 drop-shadow-md leading-tight">
             Empowering Education
             <br />
             With Responsible AI
           </h1>
-          <p className="text-lg mt-4 mb-6 md:text-xl text-gray-700 font-semibold">
+          <p className="text-lg md:text-xl text-gray-700 font-semibold mt-4 mb-6">
             Learn. Grow. Innovate.
           </p>
           <Link
@@ -80,43 +46,57 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* About / Mission Statement */}
+      {/* ─── Tagline & Mission ─────────────────────────────────────────────── */}
       <div id="about" className="bg-white py-12">
-        <div className="max-w-screen-md mx-auto px-6 text-center">
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">Our Mission</h2>
+        <div className="max-w-screen-md mx-auto px-6 text-center space-y-4">
+          {/* Tagline */}
+          <p className="text-sm uppercase text-gray-500 tracking-wider">
+            The Veritas Institute is a nonprofit initiative dedicated to
+            restoring and safeguarding academic honesty.
+          </p>
+
+          <h2 className="text-2xl font-bold text-blue-900">Our Mission</h2>
+
           <p className="text-lg text-gray-700">
-            At THE VERITAS INSTITUTE, our mission is to empower educators and
-            institutions with responsible AI tools and insights, fostering
-            innovation while upholding ethical standards in education.
+            We support educators, institutions, and students by developing
+            integrity-first guidelines, facilitating AI-awareness trainings, and
+            advocating for policy reform that protects the value of independent
+            thought.
+          </p>
+
+          <p className="text-lg text-gray-700">
+            Founded in 2025, the Veritas Institute promotes responsible AI use
+            while preserving the foundational values of academia: originality,
+            evidence, and truth.
           </p>
         </div>
       </div>
 
-      {/* Trusted Partners (with Carousel) */}
+      {/* ─── Stories Carousel ──────────────────────────────────────────────── */}
       <div className="bg-white py-10">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-xl font-semibold text-gray-800 mb-6">
-            Trusted by leading institutions
+            Real Stories from the Research Community
           </h2>
-          <div className="mx-auto">
-            <Slider {...settings}>
-              {partners.map((src, index) => (
-                <div key={index} className="px-4 flex justify-center">
-                  <Image
-                    src={src}
-                    alt={`Partner ${index}`}
-                    width={120}
-                    height={40}
-                    className="transition-transform transform hover:scale-110 hover:shadow-xl bg-white rounded-lg mx-auto"
-                  />
-                </div>
-              ))}
-            </Slider>
+          <StoryCarousel />
+          <div className="mt-6 flex justify-center gap-4">
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-yellow-500 text-white font-semibold px-6 py-3 rounded shadow hover:bg-yellow-600 transition-colors"
+            >
+              Tell Your Story
+            </button>
+            <Link
+              href="/stories"
+              className="text-blue-700 border border-blue-700 font-semibold px-6 py-3 rounded hover:bg-blue-700 hover:text-white transition-colors"
+            >
+              See All Stories
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Quick Links */}
+      {/* ─── Quick Links ───────────────────────────────────────────────────── */}
       <div className="bg-white py-10">
         <div className="max-w-screen-xl mx-auto px-6 lg:px-12 text-center">
           <h2 className="text-lg font-semibold text-gray-800 mb-6">
@@ -128,11 +108,10 @@ const Hero = () => {
               "Grow my skills",
               "Explore AI",
               "Get certified",
-            ].map((text, index) => (
+            ].map((text, i) => (
               <button
-                key={index}
-                className="px-6 py-3 border-2 border-blue-700 text-blue-700 font-semibold rounded-full 
-                           hover:bg-blue-700 hover:text-white transition-colors duration-300"
+                key={i}
+                className="px-6 py-3 border-2 border-blue-700 text-blue-700 font-semibold rounded-full hover:bg-blue-700 hover:text-white transition-colors duration-300"
               >
                 {text}
               </button>
@@ -141,7 +120,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Newsletter Signup Section */}
+      {/* ─── Newsletter ────────────────────────────────────────────────────── */}
       <div className="bg-white py-16">
         <div className="max-w-screen-md mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold text-blue-900 mb-4">
@@ -166,6 +145,13 @@ const Hero = () => {
           </form>
         </div>
       </div>
+
+      {/* ─── Story Form Modal ─────────────────────────────────────────────── */}
+      <StoryFormModal
+        isOpen={showForm}
+        onClose={() => setShowForm(false)}
+        onSubmit={handleStorySubmit}
+      />
     </section>
   );
 };
