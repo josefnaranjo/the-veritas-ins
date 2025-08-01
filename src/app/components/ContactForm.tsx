@@ -138,7 +138,9 @@ const ContactForm: React.FC<ContactFormProps> = ({
       <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
         <div className="flex-1">
           {status === "success" && (
-            <p className="text-green-600">Thanks! We'll be in touch soon.</p>
+            <p className="text-green-600">
+              Thanks! We&apos;ll be in touch soon.
+            </p>
           )}
           {status === "error" && (
             <p className="text-red-600">

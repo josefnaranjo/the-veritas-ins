@@ -128,10 +128,8 @@ export default function StoriesPage() {
           </div>
         )}
 
-        
-
         {/* go back to top */}
-        {showTop  && (
+        {showTop && (
           <div className="mt-12 flex justify-center">
             <button
               onClick={scrollToTop}

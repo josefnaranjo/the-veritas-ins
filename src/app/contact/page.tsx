@@ -150,7 +150,9 @@ export default function ContactPage() {
           </div>
 
           {status === "success" && (
-            <p className="text-green-600">Thanks! We'll be in touch soon.</p>
+            <p className="text-green-600">
+              Thanks! We&apos;ll be in touch soon.
+            </p>
           )}
           {status === "error" && (
             <p className="text-red-600">
