@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
       <div className="flex flex-col text-center items-center justify-center my-10 pt-28 pb-16 md:flex-row md:space-x-12 md:text-left max-w-screen-xl mx-auto px-6 lg:px-12 gap-6">
         <div className="md:w-1/2 flex justify-center md:justify-start">
           <Image
-            src="/Students.jpg"
+            src="/Students.png"
             alt="College students learning"
             width={700}
             height={500}
