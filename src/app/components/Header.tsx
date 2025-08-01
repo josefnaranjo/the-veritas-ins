@@ -1,65 +1,75 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Link as ScrollLink } from "react-scroll";
-import { IoMdMenu, IoMdClose } from "react-icons/io";
 import { usePathname } from "next/navigation";
 
 const Header: React.FC = () => {
   const pathname = usePathname() || "";
   const [menuOpen, setMenuOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const prevPathRef = useRef<string>(pathname);
 
-  // Hide header on /stories, but only after mount to avoid SSR/CSR mismatch.
+  // close mobile menu if clicking outside
   useEffect(() => {
-    if (pathname.replace(/\/+$/, "").startsWith("/stories")) {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
-  }, [pathname]);
-
-  // Outside click closes mobile menu
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (menuOpen && menuRef.current && !menuRef.current.contains(e.target as Node)) {
+    const onClickOutside = (e: MouseEvent) => {
+      if (
+        menuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(e.target as Node)
+      ) {
         setMenuOpen(false);
       }
     };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
   }, [menuOpen]);
 
-  if (!visible) return null;
+  // close menu on route change
+  useEffect(() => {
+    if (prevPathRef.current !== pathname) {
+      setMenuOpen(false);
+      prevPathRef.current = pathname;
+    }
+  }, [pathname]);
+
+  // hide header on /stories and /about
+  if (pathname.startsWith("/stories") || pathname.startsWith("/about")) {
+    return null;
+  }
 
   return (
     <header className="fixed top-0 left-0 w-full bg-[#E6F0FB] border-b border-gray-300 shadow-md z-50">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 md:py-4 lg:px-12 lg:py-4">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Image
-            src="/Logo.png"
-            alt="THE VERITAS INSTITUTE"
-            width={55}
-            height={55}
-            className="mr-2"
-          />
-          <div className="flex flex-col space-y-0.5 leading-tight text-blue-900 uppercase">
-            <span className="text-sm md:text-base tracking-wider font-semibold">
-              THE
-            </span>
-            <span className="text-sm md:text-base tracking-wider font-semibold ml-2">
-              VERITAS
-            </span>
-            <span className="text-sm md:text-base tracking-wider font-semibold ml-4">
-              INSTITUTE
-            </span>
-          </div>
+        <div className="flex items-center">
+          <Link href="/" aria-label="Home">
+            <div className="flex items-center cursor-pointer">
+              <Image
+                src="/Logo.png"
+                alt="THE VERITAS INSTITUTE"
+                width={55}
+                height={55}
+                priority
+              />
+              <div className="flex flex-col ml-2 space-y-0.5 leading-tight text-blue-900 uppercase">
+                <span className="text-sm md:text-base tracking-wider font-semibold">
+                  THE
+                </span>
+                <span className="text-sm md:text-base tracking-wider font-semibold ml-2">
+                  VERITAS
+                </span>
+                <span className="text-sm md:text-base tracking-wider font-semibold ml-4">
+                  INSTITUTE
+                </span>
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center space-x-4 md:space-x-6 text-gray-800 font-medium text-sm md:text-base">
+        <nav className="hidden md:flex items-center space-x-6 text-gray-800 font-medium text-sm md:text-base">
           <ScrollLink
             to="home"
             smooth
@@ -69,86 +79,82 @@ const Header: React.FC = () => {
           >
             Home
           </ScrollLink>
-          <ScrollLink
-            to="about"
-            smooth
-            offset={-80}
-            duration={500}
-            className="cursor-pointer hover:text-blue-700 transition-colors"
-          >
-            About
-          </ScrollLink>
-          <ScrollLink
-            to="contact"
-            smooth
-            offset={-80}
-            duration={500}
-            className="cursor-pointer hover:text-blue-700 transition-colors"
+          <Link href="/about" className="hover:text-blue-700 transition-colors">
+            About Us
+          </Link>
+          <Link
+            href="/contact"
+            className="hover:text-blue-700 transition-colors"
           >
             Contact
-          </ScrollLink>
+          </Link>
           <a
             href="#"
-            className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors text-sm md:text-base"
+            className="bg-blue-700 text-white px-3 py-1.5 rounded hover:bg-blue-800 transition-colors text-sm md:text-base"
           >
             Get Started
           </a>
         </nav>
 
-        {/* Mobile menu toggle */}
+        {/* Mobile toggle */}
         <button
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className="md:hidden p-2 rounded focus-visible:outline-2 focus-visible:outline-blue-500"
+          aria-label="Menu"
+          aria-expanded={menuOpen}
+          className="md:hidden relative p-2 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 hover:bg-blue-100 transition"
           onClick={() => setMenuOpen((o) => !o)}
         >
-          {menuOpen ? (
-            <IoMdClose size={26} className="text-blue-900" />
-          ) : (
-            <IoMdMenu size={26} className="text-blue-900" />
-          )}
+          <div className="w-6 h-6 flex flex-col justify-between">
+            <span
+              className={`block h-0.5 w-full bg-blue-900 rounded transform transition-all duration-300 ${
+                menuOpen ? "rotate-45 translate-y-2" : ""
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-full bg-blue-900 rounded transition-all duration-300 ${
+                menuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-full bg-blue-900 rounded transform transition-all duration-300 ${
+                menuOpen ? "-rotate-45 -translate-y-2" : ""
+              }`}
+            />
+          </div>
         </button>
       </div>
 
-      {/* Mobile menu with transition */}
+      {/* Mobile menu */}
       {menuOpen && (
         <div
-          ref={menuRef}
-          className="md:hidden bg-[#E6F0FB] px-4 pb-4 space-y-3 text-gray-800 font-medium overflow-hidden transition-all duration-200 ease-out"
+          ref={(el) => {
+            if (el) menuRef.current = el;
+          }}
+          className="md:hidden bg-[#E6F0FB] px-4 pb-4 space-y-3 text-gray-800 font-medium animate-fade-in"
         >
-          <ScrollLink
-            to="home"
-            smooth
-            offset={-80}
-            duration={500}
+          <Link
+            href="/"
             onClick={() => setMenuOpen(false)}
-            className="block cursor-pointer hover:text-blue-700 transition-colors py-2"
+            className="block py-2 rounded hover:bg-blue-100 transition"
           >
             Home
-          </ScrollLink>
-          <ScrollLink
-            to="about"
-            smooth
-            offset={-80}
-            duration={500}
+          </Link>
+          <Link
+            href="/about"
             onClick={() => setMenuOpen(false)}
-            className="block cursor-pointer hover:text-blue-700 transition-colors py-2"
+            className="block py-2 rounded hover:bg-blue-100 transition"
           >
-            About
-          </ScrollLink>
-          <ScrollLink
-            to="contact"
-            smooth
-            offset={-80}
-            duration={500}
+            About Us
+          </Link>
+          <Link
+            href="/contact"
             onClick={() => setMenuOpen(false)}
-            className="block cursor-pointer hover:text-blue-700 transition-colors py-2"
+            className="block py-2 rounded hover:bg-blue-100 transition"
           >
             Contact
-          </ScrollLink>
+          </Link>
           <a
             href="#"
-            onClick={() => setMenuOpen(false)}
-            className="block bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors mt-2 text-center"
+            className="block py-2 mt-1 bg-blue-700 text-white text-center rounded hover:bg-blue-800 transition"
           >
             Get Started
           </a>

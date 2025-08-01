@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
   return (
     <section id="home" className="bg-[#E6F0FB]">
       {/* ─── Main Hero ─────────────────────────────────────────────────────── */}
-      <div className="flex flex-col text-center items-center justify-center my-10 pt-28 pb-16 md:flex-row md:space-x-12 md:text-left max-w-screen-xl mx-auto px-6 lg:px-12">
+      <div className="flex flex-col text-center items-center justify-center my-10 pt-28 pb-16 md:flex-row md:space-x-12 md:text-left max-w-screen-xl mx-auto px-6 lg:px-12 gap-6">
         <div className="md:w-1/2 flex justify-center md:justify-start">
           <Image
             src="/Students.jpg"
@@ -33,21 +33,81 @@ const Hero: React.FC = () => {
             className="rounded-2xl shadow-md object-cover"
           />
         </div>
-        <div className="md:w-1/2 flex flex-col justify-center items-center md:items-start">
+        <div className="md:w-1/2 flex flex-col justify-center items-center md:items-start gap-3">
+          <p className="text-sm uppercase tracking-wide text-gray-600 font-medium">
+            AI has changed the classroom. Ethics needs to catch up.
+          </p>
           <h1 className="font-extrabold text-4xl md:text-5xl text-blue-900 drop-shadow-md leading-tight">
             Empowering Education
             <br />
             With Responsible AI
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 font-semibold mt-4 mb-6">
-            Learn. Grow. Innovate.
+          <p className="text-lg md:text-xl text-gray-700 font-semibold mt-2 mb-4 max-w-md">
+            Learn. Grow. Innovate. Join educators and ethicists shaping a future
+            where integrity and AI coexist responsibly.
           </p>
-          <Link
-            href="#"
-            className="text-white font-semibold px-6 py-3 bg-blue-700 rounded shadow hover:bg-blue-800 transition-colors"
-          >
-            Explore Courses
-          </Link>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="/join"
+              aria-label="Volunteer with us"
+              className="inline-flex items-center justify-center bg-blue-700 text-white font-semibold px-6 py-3 rounded shadow hover:bg-blue-800 transition-colors min-h-[44px] min-w-[120px]"
+            >
+              Volunteer with Us
+            </Link>
+            <Link
+              href="#accountability"
+              aria-label="Learn more about Accountability Ranking"
+              className="inline-flex items-center justify-center border border-blue-700 text-blue-700 font-semibold px-6 py-3 rounded hover:bg-blue-700 hover:text-white transition-colors min-h-[44px] min-w-[120px]"
+            >
+              Learn More
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Secondary Banner: Accountability Ranking ──────────────────────── */}
+      <div className="bg-gradient-to-r from-white to-[#e8f1fc] py-8">
+        <div className="max-w-screen-xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-6">
+          <div className="md:flex-1 text-center md:text-left">
+            <h2
+              id="accountability"
+              className="text-2xl font-bold text-blue-900 mb-2"
+            >
+              Build the Academic Ethics Accountability Ranking
+            </h2>
+            <p className="text-gray-700 mb-4 max-w-xl">
+              Help define transparent standards and hold institutions
+              accountable for AI ethics in education. Join a collaborative task
+              force of researchers, educators, and ethicists. Shape the future
+              of academic integrity.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+              <Link
+                href="/volunteer"
+                aria-label="Join the task force"
+                className="inline-flex items-center justify-center bg-yellow-500 text-white font-semibold px-6 py-3 rounded shadow hover:bg-yellow-600 transition-colors min-h-[44px]"
+              >
+                Join the Task Force
+              </Link>
+              <Link
+                href="/accountability"
+                aria-label="Explore the ranking"
+                className="inline-flex items-center justify-center border border-blue-700 text-blue-700 font-semibold px-6 py-3 rounded hover:bg-blue-700 hover:text-white transition-colors min-h-[44px]"
+              >
+                Explore the Ranking
+              </Link>
+            </div>
+          </div>
+          <div className="md:flex-1 flex justify-center">
+            {/* optional illustrative placeholder */}
+            <div className="bg-white rounded-lg shadow p-4 max-w-sm w-full">
+              <p className="text-sm text-gray-500">
+                Accountability ranking will surface how well institutions are
+                acting on AI/academic integrity—transparent, research-informed,
+                and community-driven.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -84,16 +144,18 @@ const Hero: React.FC = () => {
             Real Stories from the Research Community
           </h2>
           <StoryCarousel />
-          <div className="mt-6 flex justify-center gap-4">
+          <div className="mt-6 flex justify-center gap-4 flex-wrap">
             <button
               onClick={() => setShowForm(true)}
-              className="bg-yellow-500 text-white font-semibold px-6 py-3 rounded shadow hover:bg-yellow-600 transition-colors"
+              aria-label="Tell your story"
+              className="bg-yellow-500 text-white font-semibold px-6 py-3 rounded shadow hover:bg-yellow-600 transition-colors min-h-[44px]"
             >
               Tell Your Story
             </button>
             <Link
               href="/stories"
-              className="text-blue-700 border border-blue-700 font-semibold px-6 py-3 rounded hover:bg-blue-700 hover:text-white transition-colors"
+              aria-label="See all stories"
+              className="text-blue-700 border border-blue-700 font-semibold px-6 py-3 rounded hover:bg-blue-700 hover:text-white transition-colors min-h-[44px]"
             >
               See All Stories
             </Link>
@@ -116,7 +178,7 @@ const Hero: React.FC = () => {
             ].map((text, i) => (
               <button
                 key={i}
-                className="px-6 py-3 border-2 border-blue-700 text-blue-700 font-semibold rounded-full hover:bg-blue-700 hover:text-white transition-colors duration-300"
+                className="px-6 py-3 border-2 border-blue-700 text-blue-700 font-semibold rounded-full hover:bg-blue-700 hover:text-white transition-colors duration-300 min-h-[44px]"
               >
                 {text}
               </button>

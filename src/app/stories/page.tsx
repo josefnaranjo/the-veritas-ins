@@ -128,15 +128,17 @@ export default function StoriesPage() {
           </div>
         )}
 
-        {/* back to top - only when scrolled */}
-        {showTop && (
-          <div className="mt-8 flex justify-center">
+        
+
+        {/* go back to top */}
+        {showTop  && (
+          <div className="mt-12 flex justify-center">
             <button
-              aria-label="Back to top"
               onClick={scrollToTop}
-              className="inline-flex items-center gap-2 px-5 py-3 bg-white border border-blue-700 text-blue-700 font-semibold rounded hover:bg-blue-100 transition shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-gray-100 text-gray-800 rounded shadow hover:bg-gray-200 transition"
+              aria-label="Back to top"
             >
-              <IoChevronUpSharp size={18} /> Back to Top
+              ↑ Back to top
             </button>
           </div>
         )}
