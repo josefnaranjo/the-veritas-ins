@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Link as ScrollLink } from "react-scroll";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
@@ -8,17 +8,36 @@ import { usePathname } from "next/navigation";
 const Header: React.FC = () => {
   const pathname = usePathname() || "";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // don’t render the header on /stories
-  if (pathname.startsWith("/stories")) {
-    return null;
-  }
+  // Hide header on /stories, but only after mount to avoid SSR/CSR mismatch.
+  useEffect(() => {
+    if (pathname.replace(/\/+$/, "").startsWith("/stories")) {
+      setVisible(false);
+    } else {
+      setVisible(true);
+    }
+  }, [pathname]);
+
+  // Outside click closes mobile menu
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (menuOpen && menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [menuOpen]);
+
+  if (!visible) return null;
 
   return (
     <header className="fixed top-0 left-0 w-full bg-[#E6F0FB] border-b border-gray-300 shadow-md z-50">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 md:py-4 lg:px-12 lg:py-4">
         {/* Logo */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <Image
             src="/Logo.png"
             alt="THE VERITAS INSTITUTE"
@@ -70,31 +89,39 @@ const Header: React.FC = () => {
           </ScrollLink>
           <a
             href="#"
-            className="bg-blue-700 text-white px-3 py-1.5 rounded hover:bg-blue-800 transition-colors text-sm md:text-base"
+            className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors text-sm md:text-base"
           >
             Get Started
           </a>
         </nav>
 
-        {/* Mobile menu button */}
+        {/* Mobile menu toggle */}
         <button
-          className="md:hidden text-gray-800"
-          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className="md:hidden p-2 rounded focus-visible:outline-2 focus-visible:outline-blue-500"
+          onClick={() => setMenuOpen((o) => !o)}
         >
-          {menuOpen ? <IoMdClose size={26} /> : <IoMdMenu size={26} />}
+          {menuOpen ? (
+            <IoMdClose size={26} className="text-blue-900" />
+          ) : (
+            <IoMdMenu size={26} className="text-blue-900" />
+          )}
         </button>
       </div>
 
-      {/* Mobile menu links */}
+      {/* Mobile menu with transition */}
       {menuOpen && (
-        <div className="md:hidden bg-[#E6F0FB] px-4 pb-4 space-y-3 text-gray-800 font-medium">
+        <div
+          ref={menuRef}
+          className="md:hidden bg-[#E6F0FB] px-4 pb-4 space-y-3 text-gray-800 font-medium overflow-hidden transition-all duration-200 ease-out"
+        >
           <ScrollLink
             to="home"
             smooth
             offset={-80}
             duration={500}
             onClick={() => setMenuOpen(false)}
-            className="block cursor-pointer hover:text-blue-700 transition-colors"
+            className="block cursor-pointer hover:text-blue-700 transition-colors py-2"
           >
             Home
           </ScrollLink>
@@ -104,7 +131,7 @@ const Header: React.FC = () => {
             offset={-80}
             duration={500}
             onClick={() => setMenuOpen(false)}
-            className="block cursor-pointer hover:text-blue-700 transition-colors"
+            className="block cursor-pointer hover:text-blue-700 transition-colors py-2"
           >
             About
           </ScrollLink>
@@ -114,10 +141,17 @@ const Header: React.FC = () => {
             offset={-80}
             duration={500}
             onClick={() => setMenuOpen(false)}
-            className="block cursor-pointer hover:text-blue-700 transition-colors"
+            className="block cursor-pointer hover:text-blue-700 transition-colors py-2"
           >
             Contact
           </ScrollLink>
+          <a
+            href="#"
+            onClick={() => setMenuOpen(false)}
+            className="block bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors mt-2 text-center"
+          >
+            Get Started
+          </a>
         </div>
       )}
     </header>

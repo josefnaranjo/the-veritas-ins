@@ -3,15 +3,20 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import StoryCarousel from "./StoryCarousel";
-import StoryFormModal from "./StoryFormModal";
+import StoryFormModal, { StoryFormResult } from "./StoryFormModal";
 import { useStories } from "../providers/StoriesProvider";
 
 const Hero: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const { addStory } = useStories();
 
-  const handleStorySubmit = (fullText: string) => {
-    addStory(fullText);
+  const handleStorySubmit = (data: StoryFormResult) => {
+    addStory({
+      fullText: data.fullText,
+      title: data.title,
+      email: data.email,
+      anonymous: data.anonymous,
+    });
     setShowForm(false);
   };
 
