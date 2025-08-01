@@ -34,8 +34,12 @@ const Header: React.FC = () => {
     }
   }, [pathname]);
 
-  // hide header on /stories and /about
-  if (pathname.startsWith("/stories") || pathname.startsWith("/about")) {
+  // hide header on specific full-screen sections
+  if (
+    pathname.startsWith("/stories") ||
+    pathname.startsWith("/about") ||
+    pathname.startsWith("/contact")
+  ) {
     return null;
   }
 
